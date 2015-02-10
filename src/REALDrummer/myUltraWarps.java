@@ -1902,9 +1902,26 @@ implements Listener {
             }
             myUltraWarps.debug("found " + event.getPlayer().getName() + "'s old username: " + old_username + "; changing warps ownerships accordingly...");
             for (UltraWarp warp : warps) {
+                
+                //Convert List Users
+                String[] new_listed_users = new String[warp.listed_users.length];
+                int i = 0;
+                for(String member : warp.listed_users){
+                    if(member.equals(old_username)){
+                        new_listed_users[i] = event.getPlayer().getName();
+                        myUltraWarps.debug("found player " + event.getPlayer().getName() + " on someones warp list; updating....");
+                    } else {
+                        new_listed_users[i] = member;
+                    }
+                    i++;
+                }
+                warp.listed_users = new_listed_users;
+                
+                //Convert Owner
                 if (!warp.owner.equals(old_username) && !warp.owner.equals(event.getPlayer().getUniqueId().toString())) continue;
                 myUltraWarps.debug("found one of " + event.getPlayer().getName() + "'s warps: \"" + warp.name + "\"; updating owner...");
                 warp.owner = event.getPlayer().getName();
+                
             }
             for (UltraSwitch sw: switches) {
                 if (!sw.warp_owner.equals(old_username) && !sw.warp_owner.equals(event.getPlayer().getUniqueId().toString())) continue;
