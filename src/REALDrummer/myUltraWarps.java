@@ -1900,6 +1900,7 @@ implements Listener {
                 myUltraWarps.tellOps((Object)ChatColor.DARK_RED + "I detected that " + event.getPlayer().getName() + " changed their username, but I couldn't find their old username!", true, new String[0]);
                 return;
             }
+            
             myUltraWarps.debug("found " + event.getPlayer().getName() + "'s old username: " + old_username + "; changing warps ownerships accordingly...");
             for (UltraWarp warp : warps) {
                 
@@ -1928,6 +1929,13 @@ implements Listener {
                 myUltraWarps.debug("found one of " + event.getPlayer().getName() + "'s switches: \"" + sw.warp_name + "\"; updating owner...");
                 sw.warp_owner = event.getPlayer().getName();
             }
+            
+            //Updatin the UUID list
+            //Alten Eintrag löschen
+            this.UUIDs.remove(event.getPlayer().getName());
+            //Neuen Eintrag erstellen
+            this.UUIDs.put(event.getPlayer().getName(), event.getPlayer().getUniqueId());
+            
         } else if (!this.UUIDs.containsKey(event.getPlayer().getName())) {
             myUltraWarps.debug("detected new player: " + event.getPlayer().getName() + "; logging UUID (" + event.getPlayer().getUniqueId() + ")...");
             this.UUIDs.put(event.getPlayer().getName(), event.getPlayer().getUniqueId());
