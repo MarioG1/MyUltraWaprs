@@ -448,8 +448,8 @@ implements Listener {
                 this.help_pages.add(help_line);
                 ++i;
             }
+            myUltraWarps.debug("loaded player names..... (This may take a while)");
             for (OfflinePlayer player2 : server.getOfflinePlayers()) {
-                myUltraWarps.debug("loaded player name: \"" + player2.getName() + "\"");
                 players.add(player2.getName());
             }
             String[] enable_messages = new String[]{"Scotty can now beam you up.", "The warps have entered the building.", "These ARE the warps you're looking for.", "May the warps be with you.", "Let's rock these warps.", "Warp! Warp! Warp! Warp! Warp! Warp!", "What warp through yonder server breaks?", "Wanna see me warp to that mountain and back?\nWanna see me do it again?", "/jump is much less lethal now!", "/top used to take people above the Nether's ceiling!"};
@@ -1761,22 +1761,16 @@ implements Listener {
 
     public SettingsSet getSettings(Player player) {
         if (settings.get(player.getName()) != null) {
-            myUltraWarps.debug("retrieved settings: individual (" + player.getName() + ")");
             return settings.get(player.getName());
         }
         if (permissions != null && permissions.getPlayerGroups(player) != null) {
-            myUltraWarps.debug("acknowledged " + player + "'s " + permissions.getPrimaryGroup(player) + " group membership");
             if (use_group_settings && settings.get("[" + permissions.getPrimaryGroup(player) + "]") != null) {
-                myUltraWarps.debug("retrieved settings: group (" + permissions.getPrimaryGroup(player) + ")");
                 return settings.get("[" + permissions.getPrimaryGroup(player) + "]");
             }
         } else if (permissions == null) {
-            myUltraWarps.debug("no permissions available; no group found");
         } else {
-            myUltraWarps.debug("no permissions group found");
         }
         if (settings.get("[server]") != null) {
-            myUltraWarps.debug("retrieved settings: global");
             return settings.get("[server]");
         }
         myUltraWarps.tellOps((Object)ChatColor.DARK_RED + "I couldn't retrieve " + player + "'s settings!", true, new String[0]);
@@ -1785,7 +1779,6 @@ implements Listener {
     
         public SettingsSet getSettings(String group) {
         if (settings.get("[server]") != null) {
-            myUltraWarps.debug("retrieved settings: global");
             return settings.get("[server]");
         }
         myUltraWarps.tellOps((Object)ChatColor.DARK_RED + "I couldn't retrieve " + group + "'s settings!", true, new String[0]);
@@ -3404,9 +3397,9 @@ implements Listener {
                 UUID_file.createNewFile();
             }
             RandomAccessFile out = new RandomAccessFile(UUID_file, "rw");
+            myUltraWarps.debug("Writing UUID info.....");
             for (String username : this.UUIDs.keySet()) {
-                String line = String.valueOf(username) + ";" + this.UUIDs.get(username).toString();
-                myUltraWarps.debug("writing UUID info: \"" + line + "\"");
+                String line = String.valueOf(username) + ";" + this.UUIDs.get(username).toString(); 
                 out.writeUTF(line);
             }
             out.close();
