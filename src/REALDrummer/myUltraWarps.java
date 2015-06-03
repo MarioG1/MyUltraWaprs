@@ -448,7 +448,7 @@ implements Listener {
                 this.help_pages.add(help_line);
                 ++i;
             }
-            myUltraWarps.debug("loaded player names..... (This may take a while)");
+            myUltraWarps.debug("Loading player names..... (This may take a while)");
             for (OfflinePlayer player2 : server.getOfflinePlayers()) {
                 players.add(player2.getName());
             }
@@ -1925,7 +1925,7 @@ implements Listener {
             
             //Updatin the UUID list
             //Alten Eintrag löschen
-            this.UUIDs.remove(event.getPlayer().getName());
+            this.UUIDs.remove(old_username);
             //Neuen Eintrag erstellen
             this.UUIDs.put(event.getPlayer().getName(), event.getPlayer().getUniqueId());
             
