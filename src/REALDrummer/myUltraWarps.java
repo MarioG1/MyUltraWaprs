@@ -1923,7 +1923,7 @@ implements Listener {
                 sw.warp_owner = event.getPlayer().getName();
             }
             
-            //Updatin the UUID list
+            //Updating the UUID list
             //Alten Eintrag löschen
             this.UUIDs.remove(old_username);
             //Neuen Eintrag erstellen
@@ -3391,6 +3391,7 @@ implements Listener {
 
     private void saveTheUniqueIDs(CommandSender sender, boolean display_message) {
         try {
+            ArrayList<UUID> saved_players = new ArrayList();
             File UUID_file = new File(this.getDataFolder(), "uuids.raf");
             if (!UUID_file.exists()) {
                 myUltraWarps.debug("no UUID file found; creating new file...");
@@ -3399,8 +3400,13 @@ implements Listener {
             RandomAccessFile out = new RandomAccessFile(UUID_file, "rw");
             myUltraWarps.debug("Writing UUID info.....");
             for (String username : this.UUIDs.keySet()) {
-                String line = String.valueOf(username) + ";" + this.UUIDs.get(username).toString(); 
-                out.writeUTF(line);
+                if(!saved_players.contains(this.UUIDs.get(username))){
+                    saved_players.add(this.UUIDs.get(username));
+                    String line = String.valueOf(username) + ";" + this.UUIDs.get(username).toString(); 
+                    out.writeUTF(line);
+                } else {
+                    myUltraWarps.debug("A player with this UUID was already saved. ("+username+")");
+                }
             }
             out.close();
         }
